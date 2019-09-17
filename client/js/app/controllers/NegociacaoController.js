@@ -25,8 +25,9 @@ class NegociacaoController {
 
     criaTr(negociacao) {
         let tr = document.createElement('TR')
+        let data = this.getDataFormatada(negociacao.data)
     
-        tr.appendChild(this.criaTd(negociacao.data))
+        tr.appendChild(this.criaTd(data))
         tr.appendChild(this.criaTd(negociacao.quantidade))
         tr.appendChild(this.criaTd(negociacao.valor))
         tr.appendChild(this.criaTd(negociacao.volume))
@@ -39,5 +40,9 @@ class NegociacaoController {
         td.innerHTML = valor
         
         return td
+    }
+
+    getDataFormatada(data) {
+        return `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`
     }
 }
