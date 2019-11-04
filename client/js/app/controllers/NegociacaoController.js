@@ -4,7 +4,8 @@ class NegociacaoController {
         this._inputData = $('#data')
         this._inputQuantidade = $('#quantidade')
         this._inputValor = $('#valor')
-        this.table = $('table tbody')
+        this._table = $('table tbody')
+        this._listaNegociacoes = new ListaNegociacoes()
     }
 
     adiciona(event) {
@@ -15,8 +16,10 @@ class NegociacaoController {
             this._inputQuantidade.value,
             this._inputValor.value
         )
+        this._listaNegociacoes.adiciona(negociacao)
 
-        this.table.appendChild(this.criaTr(negociacao))
+        this._table.appendChild(this.criaTr(negociacao))
+        console.log(this._listaNegociacoes)
     }
 
     criaTr(negociacao) {
