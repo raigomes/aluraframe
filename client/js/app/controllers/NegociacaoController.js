@@ -11,15 +11,19 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault()
 
-        let negociacao = new Negociacao(
-            DateHelper.textoParaData(this._inputData.value),
-            this._inputQuantidade.value,
-            this._inputValor.value
-        )
+        let negociacao = this._criaNegociacao()
         this._listaNegociacoes.adiciona(negociacao)
 
         this._table.appendChild(this.criaTr(negociacao))
         console.log(this._listaNegociacoes)
+    }
+
+    _criaNegociacao() {
+        return new Negociacao(
+            DateHelper.textoParaData(this._inputData.value),
+            this._inputQuantidade.value,
+            this._inputValor.value
+        )
     }
 
     criaTr(negociacao) {
