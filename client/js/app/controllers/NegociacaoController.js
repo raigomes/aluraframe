@@ -1,5 +1,5 @@
 class NegociacaoController {
-    constructor () {
+    constructor() {
         let $ = document.querySelector.bind(document)
         this._inputData = $('#data')
         this._inputQuantidade = $('#quantidade')
@@ -10,12 +10,8 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault()
 
-        let data = new Date(...this._inputData.value
-                                .split('-')
-                                .map((item, index) => item - index % 2))
-
         let negociacao = new Negociacao(
-            data,
+            DateHelper.textoParaData(this._inputData.value),
             this._inputQuantidade.value,
             this._inputValor.value
         )
@@ -25,8 +21,8 @@ class NegociacaoController {
 
     criaTr(negociacao) {
         let tr = document.createElement('TR')
-        let data = this.getDataFormatada(negociacao.data)
-    
+        let data = DateHelper.dataParaTexto(negociacao.data)
+
         tr.appendChild(this.criaTd(data))
         tr.appendChild(this.criaTd(negociacao.quantidade))
         tr.appendChild(this.criaTd(negociacao.valor))
@@ -38,11 +34,7 @@ class NegociacaoController {
     criaTd(valor) {
         let td = document.createElement('TD')
         td.innerHTML = valor
-        
-        return td
-    }
 
-    getDataFormatada(data) {
-        return `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`
+        return td
     }
 }
