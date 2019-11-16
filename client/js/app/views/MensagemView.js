@@ -1,5 +1,5 @@
 class MensagemView extends View {
-  template (model) {
-    return `<p class="alert alert-info">${model.texto}</p>`
+  template(model) {
+    return `${model.texto ? `<p class="alert alert-info">${model.texto}</p>` : ''}`
   }
 }
