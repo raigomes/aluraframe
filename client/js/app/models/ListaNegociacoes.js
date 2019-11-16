@@ -11,11 +11,11 @@ class ListaNegociacoes {
 
     adiciona(negociacao) {
         this._negociacoes.push(negociacao)
-        this._callback(this._negociacoes)
+        this._callback(this)
     }
 
     apaga() {
         this._negociacoes = []
-        this._callback(this._negociacoes)
+        this._callback(this)
     }
 }
