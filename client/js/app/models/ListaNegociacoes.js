@@ -11,11 +11,11 @@ class ListaNegociacoes {
 
     adiciona(negociacao) {
         this._negociacoes.push(negociacao)
-        Reflect.apply(this._callback, this._contexto, [this._negociacoes])
+        this._callback(this._negociacoes)
     }
 
     apaga() {
         this._negociacoes = []
-        Reflect.apply(this._callback, this._contexto, [this._negociacoes])
+        this._callback(this._negociacoes)
     }
 }
