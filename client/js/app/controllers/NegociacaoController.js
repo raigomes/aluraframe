@@ -13,7 +13,7 @@ class NegociacaoController {
                     return function () {
 
                         Reflect.apply(target[prop], target, arguments)
-                        return self._negociacoesView.update(target)
+                        self._negociacoesView.update(target)
                     }
                 }
                 return Reflect.get(target, prop, receiver)
@@ -24,9 +24,8 @@ class NegociacaoController {
 
         this._mensagem = new Proxy(new Mensagem(), {
             set(target, prop, value, receiver) {
-                const answer = Reflect.set(target, prop, value, receiver)
+                Reflect.set(target, prop, value, receiver)
                 self._mensagemView.update(target)
-                return answer
             }
         })
         this._mensagemView = new MensagemView($('#mensagemView'))
