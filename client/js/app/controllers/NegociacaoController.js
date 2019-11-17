@@ -1,11 +1,25 @@
 class NegociacaoController {
     constructor() {
         const $ = document.querySelector.bind(document)
+        const self = this
         this._inputData = $('#data')
         this._inputQuantidade = $('#quantidade')
         this._inputValor = $('#valor')
 
-        this._listaNegociacoes = new ListaNegociacoes(this, model => this._negociacoesView.update(model))
+        this._listaNegociacoes = new Proxy(new ListaNegociacoes(), {
+            get(target, prop, receiver) {
+                if (['adiciona', 'apaga'].includes(prop) && typeof (target[prop]) === 'function') {
+
+                    return function () {
+
+                        Reflect.apply(target[prop], target, arguments)
+                        return self._negociacoesView.update(target)
+                    }
+                }
+                return Reflect.get(target, prop, receiver)
+            }
+
+        })
         this._negociacoesView = new NegociacoesView($('#negociacoesView'))
 
         this._mensagem = new Mensagem()

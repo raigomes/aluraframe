@@ -1,8 +1,6 @@
 class ListaNegociacoes {
-    constructor(contexto, callback) {
+    constructor() {
         this._negociacoes = []
-        this._contexto = contexto
-        this._callback = callback
     }
 
     get negociacoes() {
@@ -11,11 +9,9 @@ class ListaNegociacoes {
 
     adiciona(negociacao) {
         this._negociacoes.push(negociacao)
-        this._callback(this)
     }
 
     apaga() {
         this._negociacoes = []
-        this._callback(this)
     }
 }
