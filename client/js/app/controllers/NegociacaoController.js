@@ -22,9 +22,14 @@ class NegociacaoController {
         })
         this._negociacoesView = new NegociacoesView($('#negociacoesView'))
 
-        this._mensagem = new Mensagem()
+        this._mensagem = new Proxy(new Mensagem(), {
+            set(target, prop, value, receiver) {
+                const answer = Reflect.set(target, prop, value, receiver)
+                self._mensagemView.update(target)
+                return answer
+            }
+        })
         this._mensagemView = new MensagemView($('#mensagemView'))
-        this._mensagemView.update(this._mensagem)
     }
 
     adiciona(event) {
@@ -33,13 +38,13 @@ class NegociacaoController {
         this._listaNegociacoes.adiciona(this._criaNegociacao())
 
         this._mensagem.texto = 'Elemento inserido com sucesso'
-        this._mensagemView.update(this._mensagem)
 
         this._limpaNegociacao()
     }
 
     apaga(event) {
         this._listaNegociacoes.apaga()
+        this._mensagem.texto = ''
     }
 
     _criaNegociacao() {
