@@ -2,7 +2,7 @@ class ProxyFactory {
     static create(objeto, props, acao) {
         return new Proxy(objeto, {
             get(target, prop, receiver) {
-                if (props.includes(prop) && typeof (target[prop]) === 'function') {
+                if (props.includes(prop) && ProxyFactory._ehFuncao(target[prop])) {
                     return function () {
                         Reflect.apply(target[prop], target, arguments)
                         return acao(target)
@@ -18,5 +18,9 @@ class ProxyFactory {
                 return Reflect.set(target, prop, value, receiver)
             }
         })
+    }
+
+    static _ehFuncao(func) {
+        return typeof (func) === 'function'
     }
 }
