@@ -19,7 +19,7 @@ class NegociacoesView extends View {
                 <td>${elemento.volume}</td>
             </tr>
           `
-          )}
+          ).join("")}
           <tr>
             <td colspan="3"></td>
             <td>${model.volumeTotal}</td>
