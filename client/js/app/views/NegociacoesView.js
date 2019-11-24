@@ -4,10 +4,22 @@ class NegociacoesView extends View {
     <table class="table table-hover table-bordered">
         <thead>
             <tr>
-                <th>DATA</th>
-                <th>QUANTIDADE</th>
-                <th>VALOR</th>
-                <th>VOLUME</th>
+                <th onclick="negociacaoController.ordena('data')">
+                  <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                  DATA
+                </th>
+                <th onclick="negociacaoController.ordena('quantidade')">
+                  <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                  QUANTIDADE
+                </th>
+                <th onclick="negociacaoController.ordena('valor')">
+                  <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                  VALOR
+                </th>
+                <th onclick="negociacaoController.ordena('volume')">
+                  <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                  VOLUME
+                </th>
             </tr>
         </thead>
         <tbody>
