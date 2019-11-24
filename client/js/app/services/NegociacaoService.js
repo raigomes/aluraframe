@@ -2,6 +2,18 @@ class NegociacaoService {
     constructor() {
         this._service = new HttpService()
     }
+    obterNegociacoes() {
+        return Promise.all([
+                this.obterNegociacoesDaSemana(),
+                this.obterNegociacoesDaSemanaAnterior(),
+                this.obterNegociacoesDaSemanaRetrasada()
+            ])
+            .then(resultado => resultado.reduce((novoArray, array) => novoArray.concat(array), []))
+            .catch(erro => {
+                throw new Error(erro)
+            })
+    }
+
     obterNegociacoesDaSemana() {
         return this._service
             .get('/negociacoes/semana')
@@ -15,6 +27,7 @@ class NegociacaoService {
             })
 
     }
+
     obterNegociacoesDaSemanaAnterior() {
         return this._service
             .get('/negociacoes/anterior')
@@ -27,6 +40,7 @@ class NegociacaoService {
                 throw new Error('Não foi possível importar as negociações da semana')
             })
     }
+
     obterNegociacoesDaSemanaRetrasada() {
         return this._service
             .get('/negociacoes/retrasada')
