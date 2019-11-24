@@ -28,6 +28,10 @@ class NegociacaoController {
         this._mensagem.texto = 'Negociações apagadas com sucesso'
     }
 
+    importaNegociacoes(event) {
+        NegociacaoService.enviaRequisicao(negociacao => this._listaNegociacoes.adiciona(negociacao))
+    }
+
     _criaNegociacao() {
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
