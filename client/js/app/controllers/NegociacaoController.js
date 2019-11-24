@@ -11,6 +11,8 @@ class NegociacaoController {
 
         this._mensagem = new Bind(
             new Mensagem(), new MensagemView($('#mensagemView')), 'texto')
+
+        this._service = new NegociacaoService()
     }
 
     adiciona(event) {
@@ -29,7 +31,17 @@ class NegociacaoController {
     }
 
     importaNegociacoes(event) {
-        NegociacaoService.enviaRequisicao(negociacao => this._listaNegociacoes.adiciona(negociacao))
+        Promise.all([
+                this._service.obterNegociacoesDaSemana(),
+                this._service.obterNegociacoesDaSemanaAnterior(),
+                this._service.obterNegociacoesDaSemanaRetrasada()
+            ]).then(resultado => {
+                resultado
+                    .reduce((novoArray, array) => novoArray.concat(array), [])
+                    .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+                this._mensagem.texto = "Negociações importadas com sucesso"
+            })
+            .catch(erro => console.log(erro))
     }
 
     _criaNegociacao() {

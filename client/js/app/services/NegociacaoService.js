@@ -1,21 +1,30 @@
 class NegociacaoService {
-    static enviaRequisicao(callback) {
-        const xhr = new XMLHttpRequest()
-        xhr.open('GET', '/negociacoes/semana')
+    constructor() {
+        this._service = new HttpService()
+    }
+    obterNegociacoesDaSemana() {
+        return this._service
+            .get('/negociacoes/semana')
+            .then(resposta =>
+                resposta.map(item => new Negociacao(new Date(item.data), item.quantidade, item.valor))
+            )
+            .catch(erro => console.log('Não foi possível importar as negociações da semana', erro))
 
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    JSON.parse(xhr.responseText).map(item => {
-                        callback(new Negociacao(new Date(item.data), item.quantidade, item.valor))
-                    })
-                    alert('Negociações importadas com sucesso!')
-                } else {
-                    console.error('Importação não concluida')
-                }
-            }
-        }
-
-        xhr.send()
+    }
+    obterNegociacoesDaSemanaAnterior() {
+        return this._service
+            .get('/negociacoes/anterior')
+            .then(resposta =>
+                resposta.map(item => new Negociacao(new Date(item.data), item.quantidade, item.valor))
+            )
+            .catch(erro => console.log('Não foi possível importar as negociações da semana anterior', erro))
+    }
+    obterNegociacoesDaSemanaRetrasada() {
+        return this._service
+            .get('/negociacoes/retrasada')
+            .then(resposta =>
+                resposta.map(item => new Negociacao(new Date(item.data), item.quantidade, item.valor))
+            )
+            .catch(erro => console.log('Não foi possível importar as negociações da semana retrasada', erro))
     }
 }
