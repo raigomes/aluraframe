@@ -66,7 +66,7 @@ class NegociacaoController {
         if (this._ordemAtual === coluna) {
             this._listaNegociacoes.inverteOrdem()
         } else {
-            this._listaNegociacoes.ordena((ant, prox) => ant[coluna] - prox[coluna])
+            this._listaNegociacoes.ordena((ant, prox) => prox[coluna] - ant[coluna])
         }
         this._ordemAtual = coluna
     }
