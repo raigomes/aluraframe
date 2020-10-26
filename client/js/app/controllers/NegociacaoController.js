@@ -24,7 +24,8 @@ class NegociacaoController {
             .then(negociacoes => 
                     negociacoes.forEach(negociacao => 
                         this._listaNegociacoes.adiciona(negociacao)))
-                        
+            .then(() => this.ordena('data'))
+
     }
 
     adiciona(event) {
