@@ -16,6 +16,15 @@ class NegociacaoController {
             new Mensagem(), new MensagemView($('#mensagemView')), 'texto')
 
         this._service = new NegociacaoService()
+
+        //Listando todas as negociações ao carregar a página
+        ConnectionFactory.getConnection()
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.listaTodos())
+            .then(negociacoes => 
+                    negociacoes.forEach(negociacao => 
+                        this._listaNegociacoes.adiciona(negociacao)))
+                        
     }
 
     adiciona(event) {
@@ -36,7 +45,6 @@ class NegociacaoController {
                     })
             })
             .catch(erro => this._mensagem.texto = erro)
-
     }
 
     apaga(event) {
