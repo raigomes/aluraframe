@@ -21,13 +21,22 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault()
 
-        try {
-            this._listaNegociacoes.adiciona(this._criaNegociacao())
-            this._mensagem.texto = 'Negociação inserida com sucesso'
-            this._limpaNegociacao()
-        } catch (erro) {
-            this._mensagem.texto = erro
-        }
+        ConnectionFactory
+            .getConnection()
+            .then(connection => {
+                let negociacao = this._criaNegociacao()
+
+                new NegociacaoDao(connection)
+                    .adiciona(negociacao)
+                    .then(() => {
+                        //Se a conexão foi criada com sucesso, atualiza a lista para refletir na view
+                        this._listaNegociacoes.adiciona(negociacao)
+                        this._mensagem.texto = 'Negociação inserida com sucesso'
+                        this._limpaNegociacao()
+                    })
+            })
+            .catch(erro => this._mensagem.texto = erro)
+
     }
 
     apaga(event) {
@@ -56,8 +65,8 @@ class NegociacaoController {
     _criaNegociacao() {
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
-            this._inputQuantidade.value,
-            this._inputValor.value
+            parseInt(this._inputQuantidade.value),
+            parseFloat(this._inputValor.value)
         )
     }
 
