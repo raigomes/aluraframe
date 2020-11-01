@@ -35,6 +35,7 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault()
 
+        //Adiciona uma negociação
         ConnectionFactory
             .getConnection()
             .then(connection => {
@@ -54,17 +55,15 @@ class NegociacaoController {
 
     apaga(event) {
 
-        //Apagando todas as negociações ao carregar a página
-        ConnectionFactory.getConnection()
+        //Apagando todas as negociações
+        ConnectionFactory
+            .getConnection()
             .then(connection => new NegociacaoDao(connection))
             .then(dao => dao.apagaTodos())
             .then(mensagem => {
-                this._mensagem.texto = mensagem
                 this._listaNegociacoes.apaga()
+                this._mensagem.texto = mensagem
             })
-
-        this._listaNegociacoes.apaga()
-        this._mensagem.texto = 'Negociações apagadas com sucesso'
     }
 
     importaNegociacoes(event) {
