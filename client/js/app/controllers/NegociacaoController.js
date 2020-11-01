@@ -18,7 +18,8 @@ class NegociacaoController {
         this._service = new NegociacaoService()
 
         //Listando todas as negociações ao carregar a página
-        ConnectionFactory.getConnection()
+        ConnectionFactory
+            .getConnection()
             .then(connection => new NegociacaoDao(connection))
             .then(dao => dao.listaTodos())
             .then(negociacoes => 
@@ -67,7 +68,15 @@ class NegociacaoController {
     }
 
     importaNegociacoes(event) {
-        this._service.obterNegociacoes()
+        
+        // O primeiro then somente vai importar os itens que não foram inseridos em this._listaNegociacoes
+        this._service
+            .obterNegociacoes()
+            .then(negociacoes => 
+                negociacoes.filter(negociacao => 
+                    !this._listaNegociacoes.negociacoes.some(negociacaoExistente =>
+                        JSON.stringify(negociacaoExistente) == JSON.stringify(negociacao)))
+            )
             .then(resultado => {
                 resultado.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
                 this._mensagem.texto = "Negociações importadas com sucesso"
